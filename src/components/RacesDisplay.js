@@ -1,5 +1,7 @@
 import React from 'react'
 
+import Countdown from './Countdown'
+
 export default function RacesDisplay({ races }) {
   return (
     <table className="RacesDisplay">
@@ -15,7 +17,7 @@ export default function RacesDisplay({ races }) {
           <tr key={race.race_id} >
             <td>{race.meeting_name}</td>
             <td>{race.race_number}</td>
-            <td>{race.advertised_start.seconds}</td>
+            <td><Countdown until={race.advertised_start.seconds} /></td>
           </tr>
         ))}
       </tbody>
