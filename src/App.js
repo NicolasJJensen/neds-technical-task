@@ -54,7 +54,7 @@ export default function App({ numRaces }) {
       <div id="filter">
         {categories.map(([name, id]) => (
           <label>
-            <span>{name}</span>
+            <span className={filters.includes(id) && 'selected'} >{name}</span>
             <input type='checkbox' key={id} onClick={toggleFilters} data-category-id={id} checked={filters.includes(id)} />
           </label>
         ))}
