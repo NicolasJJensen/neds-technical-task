@@ -34,7 +34,7 @@ export default function App({ numRaces }) {
       // Use moment to calculate the MS between now and when the first race finishes
       // Then add 1000 * 60 (60 seconds) to that value
       let getMoreRacesIn = moment.unix(newRaces[newNextIDs[0]].advertised_start.seconds).diff(moment()) + 60 * 1000
-
+      console.log(newNextIDs.map(id => newRaces[id]).map(race => moment.unix(race.advertised_start.seconds).format('h:m:s')))
       // Set a timeout to get the races again once a race has finished for 1 min
       setTimeout(() => {
         getRaces(amount)
@@ -68,9 +68,9 @@ export default function App({ numRaces }) {
       <div id="filter">
         {/* Loop through the categories adding a checkbox with the correct values for each */}
         {categories.map(([name, id]) => (
-          <label>
-            <span className={filters.includes(id) && 'selected'} >{name}</span>
-            <input type='checkbox' key={id} onClick={toggleFilters} data-category-id={id} checked={filters.includes(id)} />
+          <label key={id} >
+            <span className={filters.includes(id) ? 'selected' : ''} >{name}</span>
+            <input type='checkbox' onChange={toggleFilters} data-category-id={id} checked={filters.includes(id)} />
           </label>
         ))}
       </div>
