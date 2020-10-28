@@ -13,6 +13,8 @@ export default function RacesDisplay({ races }) {
         </tr>
       </thead>
       <tbody>
+        {/* Loop through the races displaying the relevant information
+            as well as Countdown component that displays countdown */}
         {races.map(race => (
           <tr key={race.race_id} >
             <td>{race.meeting_name}</td>
