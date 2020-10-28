@@ -1,27 +1,22 @@
-import React from 'react'
-import moment from 'moment'
+import React, { useEffect, useState } from 'react'
+
+import { humanizeTimeUntil } from '../helpers/timeHelpers'
 
 
 export default function Countdown({ until }) {
-  const timeToMoment = (time) => {
-    const now = moment()
-    const startTime = moment.unix(time)
-    const difference = moment.duration(startTime.diff(now))
+  const [humanTimeUntil, setHumanTimeUntil] = useState(humanizeTimeUntil(until))
 
-    const hours = difference.hours()
-    const minutes = difference.minutes()
-    const seconds = difference.seconds()
+  useEffect(() => {
+    const intervalID = setInterval(() => {
+      setHumanTimeUntil(humanizeTimeUntil(until))
+    }, 1000)
 
-    const hoursString = hours ? `${hours}h ` : ''
-    const minutesString = !hours || !minutes ? `${minutes}m ` : ''
-    const secondsString = `${seconds}s`
-
-    return now >= startTime ? 'Started' : `${hoursString}${minutesString}${secondsString}`
-  }
+    return () => clearInterval(intervalID)
+  }, [until])
 
   return (
     <>
-      {timeToMoment(until)}
+      {humanTimeUntil}
     </>
   )
 }

@@ -12,7 +12,6 @@ const categories = [
 
 export default function App({ numRaces }) {
   const [races, setRaces] = useState([])
-  const [nextIDs, setNextIDs] = useState([])
   const [filters, setFilters] = useState([])
 
   useEffect(() => {
@@ -28,8 +27,13 @@ export default function App({ numRaces }) {
       let newRaces = response.data.data.race_summaries
       let newNextIDs = response.data.data.next_to_go_ids
 
-      setRaces(newRaces)
-      setNextIDs(newNextIDs)
+      setRaces(newNextIDs.map(id => newRaces[id]))
+
+      let getMoreRacesIn = moment.unix(newRaces[newNextIDs[0]].advertised_start.seconds).diff(moment()) + 60 * 1000
+
+      setTimeout(() => {
+        getRaces(amount)
+      }, getMoreRacesIn)
     })
   }
 
@@ -40,12 +44,7 @@ export default function App({ numRaces }) {
   }
 
   const filteredRaces = () => (
-    nextIDs.reduce((filtered, id) => {
-      if (filters.length === 0 || filters.includes(races[id].category_id)) {
-        return [...filtered, races[id]] 
-      }
-      return filtered
-    }, [])
+    races.filter(race => filters.length === 0 || filters.includes(race.category_id))
   )
 
   return (
