@@ -13,6 +13,7 @@ const categories = [
 export default function App({ numRaces }) {
   const [races, setRaces] = useState([])
   const [nextIDs, setNextIDs] = useState([])
+  const [filters, setFilters] = useState([])
 
   useEffect(() => {
     getRaces(numRaces)
@@ -24,8 +25,7 @@ export default function App({ numRaces }) {
       { headers: { 'Content-type': 'application/json' }}
     )
     .then((response) => {
-      console.log(response.data.data.race_summaries)
-      let newRaces = Object.values(response.data.data.race_summaries)
+      let newRaces = response.data.data.race_summaries
       let newNextIDs = response.data.data.next_to_go_ids
 
       setRaces(newRaces)
@@ -33,9 +33,29 @@ export default function App({ numRaces }) {
     })
   }
 
+  const toggleFilters = (e) => {
+    const category = e.currentTarget.dataset.categoryId
+
+    setFilters(filters.includes(category) ? filters.filter(c => c !== category) : [...filters, category])
+  }
+
+  const filteredRaces = () => (
+    nextIDs.reduce((filtered, id) => {
+      if (filters.length === 0 || filters.includes(races[id].category_id)) {
+        return [...filtered, races[id]] 
+      }
+      return filtered
+    }, [])
+  )
+
   return (
     <div className="App">
-      <RacesDisplay races={races} />
+      <div id="filter">
+        {categories.map(([name, id]) => (
+          <button key={id} onClick={toggleFilters} data-category-id={id} >{name}</button>
+        ))}
+      </div>
+      <RacesDisplay races={filteredRaces()} />
     </div>
   )
 }

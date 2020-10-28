@@ -12,7 +12,7 @@ export default function RacesDisplay({ races }) {
       </thead>
       <tbody>
         {races.map(race => (
-          <tr>
+          <tr key={race.race_id} >
             <td>{race.meeting_name}</td>
             <td>{race.race_number}</td>
             <td>{race.advertised_start.seconds}</td>
