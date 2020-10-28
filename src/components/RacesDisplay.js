@@ -17,7 +17,7 @@ export default function RacesDisplay({ races }) {
           <tr key={race.race_id} >
             <td>{race.meeting_name}</td>
             <td>{race.race_number}</td>
-            <td><Countdown until={race.advertised_start.seconds} /></td>
+            <td class="startTime" ><Countdown until={race.advertised_start.seconds} /></td>
           </tr>
         ))}
       </tbody>

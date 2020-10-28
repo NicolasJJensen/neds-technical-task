@@ -4,6 +4,8 @@ import moment from 'moment'
 
 import RacesDisplay from './components/RacesDisplay'
 
+import './stylesheets/App.scss'
+
 const categories = [
   ['Greyhound racing', '9daef0d7-bf3c-4f50-921d-8e818c60fe61'],
   ['Harness racing', '161d9be2-e909-4326-8c2c-35ed71fb460b'],
@@ -51,7 +53,10 @@ export default function App({ numRaces }) {
     <div className="App">
       <div id="filter">
         {categories.map(([name, id]) => (
-          <button key={id} onClick={toggleFilters} data-category-id={id} >{name}</button>
+          <label>
+            <span>{name}</span>
+            <input type='checkbox' key={id} onClick={toggleFilters} data-category-id={id} checked={filters.includes(id)} />
+          </label>
         ))}
       </div>
       <RacesDisplay races={filteredRaces()} />

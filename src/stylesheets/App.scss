@@ -1,0 +1,52 @@
+#root {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+}
+
+.App {
+  position: relative;
+  top: 30%;
+  width: 75%;
+
+  #filter {
+    margin-bottom: 20px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+
+    }
+  }
+
+  .RacesDisplay {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 20px;
+
+    td {
+      border: 1px solid grey;
+      padding: 5px 10px;
+
+      &.startTime {
+        text-align: right;
+      }
+    }
+
+    thead {
+      th {
+        border: 1px solid grey;
+        border-bottom: 1px solid black;
+        padding: 10px 15px;
+      }
+
+    }
+  }
+}
