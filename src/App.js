@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import axios from 'axios'
 import moment from 'moment'
 
@@ -16,13 +16,8 @@ export default function App({ numRaces }) {
   const [races, setRaces] = useState([])
   const [filters, setFilters] = useState([])
 
-  // When the component is mounted it will first thing get all races 
-  useEffect(() => {
-    getRaces(numRaces)
-  }, [numRaces])
-
   // This function makes a HTTP request to get the next 5 races
-  const getRaces = (amount) => {
+  const getRaces = useCallback((amount) => {
     axios.get(
       `https://api.neds.com.au/rest/v1/racing/?method=nextraces&count=${amount}`,
       { headers: { 'Content-type': 'application/json' }}
@@ -45,7 +40,12 @@ export default function App({ numRaces }) {
         getRaces(amount)
       }, getMoreRacesIn)
     })
-  }
+  }, [])
+
+  // When the component is mounted it will first thing get all races 
+  useEffect(() => {
+    getRaces(numRaces)
+  }, [numRaces, getRaces])
 
   // Function to toggle the filters when the checkbox is selected
   const toggleFilters = (e) => {
